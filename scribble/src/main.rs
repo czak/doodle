@@ -6,24 +6,41 @@ use std::io::BufReader;
 const SONNETS: &str = include_str!("../data/sonnets.txt");
 
 fn main() {
-    // how many lines currently?
-    let file = File::open("out.txt").unwrap();
-    let reader = BufReader::new(file);
-    let len = reader.lines().count();
+    let filename = match std::env::args().nth(1) {
+        Some(s) => s,
+        None => {
+            eprintln!("must specify file");
+            std::process::exit(1);
+        }
+    };
 
-    // now open for append and add next file
-    if len == SONNETS.lines().count() {
-        // all lines printed, truncate
-        OpenOptions::new()
-            .write(true)
-            .truncate(true)
-            .open("out.txt")
-            .unwrap();
-    } else {
-        // append next line
-        let mut file = OpenOptions::new().append(true).open("out.txt").unwrap();
-        let line = SONNETS.lines().skip(len).next().unwrap();
-        file.write(line.as_bytes()).unwrap();
-        file.write(b"\n").unwrap();
+    let len = count_lines(&filename);
+
+    match SONNETS.lines().nth(len) {
+        Some(line) => append(&filename, line),
+        None => truncate(&filename),
     }
+}
+
+fn count_lines(filename: &str) -> usize {
+    let file = File::open(filename).expect("failed to open file");
+    let reader = BufReader::new(file);
+    reader.lines().count()
+}
+
+fn truncate(filename: &str) {
+    OpenOptions::new()
+        .write(true)
+        .truncate(true)
+        .open(filename)
+        .expect("failed to truncate file");
+}
+
+fn append(filename: &str, line: &str) {
+    let mut file = OpenOptions::new()
+        .append(true)
+        .open(filename)
+        .expect("failed to open file for append");
+    file.write(line.as_bytes()).unwrap();
+    file.write(b"\n").unwrap();
 }
