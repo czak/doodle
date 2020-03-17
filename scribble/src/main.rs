@@ -3,7 +3,16 @@ use std::fs::OpenOptions;
 use std::io::prelude::*;
 use std::io::BufReader;
 
-const SONNETS: &str = include_str!("../data/sonnets.txt");
+// const SONNETS: &str = include_str!("../data/sonnets.txt");
+// const TEMPLATE: &str = include_str!("../data/template.html");
+
+const SONNETS: &str = "first
+second
+third
+";
+const TEMPLATE: &str = "HEADER
+MORE HEADER
+";
 
 fn main() {
     let filename = match std::env::args().nth(1) {
