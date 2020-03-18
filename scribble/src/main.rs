@@ -23,9 +23,10 @@ fn main() {
         }
     };
 
+    let tlen = TEMPLATE.lines().count();
     let len = count_lines(&filename);
 
-    match SONNETS.lines().nth(len) {
+    match SONNETS.lines().nth(len - tlen) {
         Some(line) => append(&filename, line),
         None => truncate(&filename),
     }
@@ -40,8 +41,9 @@ fn count_lines(filename: &str) -> usize {
 fn truncate(filename: &str) {
     OpenOptions::new()
         .write(true)
-        .truncate(true)
         .open(filename)
+        .expect("failed to open file for truncate")
+        .set_len(TEMPLATE.len() as u64)
         .expect("failed to truncate file");
 }
 
@@ -51,5 +53,5 @@ fn append(filename: &str, line: &str) {
         .open(filename)
         .expect("failed to open file for append");
     file.write(line.as_bytes()).unwrap();
-    file.write(b"\n").unwrap();
+    file.write(b"<br>\n").unwrap();
 }
