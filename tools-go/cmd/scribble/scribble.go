@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -24,12 +23,11 @@ func main() {
 	slines := countLines(strings.NewReader(data.Sonnets))
 
 	if lines == tlines+slines {
-		fmt.Println("Truncating to ", len(data.Template))
-		// os.Truncate(filename, int64(len(data.Template)))
+		os.Truncate(filename, int64(len(data.Template)))
 	} else {
 		offset := lines - tlines
 		line := getLine(data.Sonnets, offset)
-		file.Write([]byte(line + "\n"))
+		file.WriteString(line + "\n")
 	}
 }
 
