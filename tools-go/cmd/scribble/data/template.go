@@ -1,0 +1,30 @@
+package data
+
+const Template = `<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sonnets</title>
+<style>
+body {
+  background-image: url(bg.jpg);
+  text-align: center;
+  font-family: serif;
+  color: #420;
+}
+
+h1 {
+  font-size: 5em;
+  font-weight: 400;
+}
+
+h2 {
+  font-size: 4em;
+  font-weight: 400;
+}
+
+</style>
+
+<h1>&#x2767;</h1>
+<h2>SHAKE-SPEARES</h2>
+<h1>SONNETS</h1>
+<h1>&#x2767;</h1>
+
+`
