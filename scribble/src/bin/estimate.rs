@@ -5,6 +5,9 @@ use scraper::{Html, Selector};
 const PATTERN_LEN: i64 = 84;
 const PATTERN: [i64; 12] = [0, 8, 16, 24, 32, 40, 48, 54, 60, 66, 72, 78];
 
+const TARGET_LOW: u32 = 4;
+const TARGET_HIGH: u32 = 10;
+
 fn main() {
     let username = std::env::args().nth(1).expect("must specify username");
 
@@ -33,9 +36,9 @@ fn get_target() -> u32 {
     let offset = now.signed_duration_since(start).num_days() % PATTERN_LEN;
 
     if PATTERN.contains(&offset) {
-        5
+        TARGET_HIGH
     } else {
-        2
+        TARGET_LOW
     }
 }
 
