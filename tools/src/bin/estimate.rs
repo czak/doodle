@@ -42,12 +42,6 @@ fn get_target() -> u32 {
     }
 }
 
-#[cfg(debug_assertions)]
-fn get_profile(_username: &str) -> String {
-    String::from(include_str!("../../data/czak.html"))
-}
-
-#[cfg(not(debug_assertions))]
 fn get_profile(username: &str) -> String {
     let url = format!("https://github.com/{}", username);
     let resp = reqwest::blocking::get(&url).expect("failed to get url");
