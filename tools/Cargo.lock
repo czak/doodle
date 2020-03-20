@@ -123,6 +123,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "doodle-tools"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "reqwest",
+ "scraper",
+]
+
+[[package]]
 name = "dtoa"
 version = "0.4.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1007,15 +1016,6 @@ dependencies = [
  "selectors",
  "smallvec 0.6.13",
  "tendril",
-]
-
-[[package]]
-name = "scribble"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "reqwest",
- "scraper",
 ]
 
 [[package]]

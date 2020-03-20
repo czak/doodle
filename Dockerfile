@@ -1,7 +1,7 @@
 FROM rust:1.42.0-slim-buster as builder
 RUN apt-get update && apt-get install -y pkg-config libssl-dev
-WORKDIR /usr/src/scribble
-COPY scribble .
+WORKDIR /usr/src/tools
+COPY tools .
 RUN cargo install --path .
 
 FROM debian:buster-slim
