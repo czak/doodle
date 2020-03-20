@@ -16,7 +16,11 @@ func main() {
 	}
 
 	filename := os.Args[1]
-	file, _ := os.OpenFile(filename, os.O_RDWR|os.O_APPEND, 0)
+
+	file, err := os.OpenFile(filename, os.O_RDWR|os.O_APPEND, 0)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	lines := countLines(file)
 	tlines := countLines(strings.NewReader(data.Template))
