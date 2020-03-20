@@ -1,12 +1,14 @@
-FROM rust:1.42.0-alpine3.11 as builder
+FROM rust:1.42.0-slim-buster as builder
+RUN apt-get update && apt-get install -y pkg-config libssl-dev
 WORKDIR /usr/src/scribble
 COPY scribble .
 RUN cargo install --path .
 
-FROM alpine:3.11
+FROM debian:buster-slim
 WORKDIR /checkout
-RUN apk add openssh git
+RUN apt-get update && apt-get install -y openssh-client git
 RUN mkdir -p ~/.ssh
 RUN ssh-keyscan github.com >> ~/.ssh/known_hosts
 COPY --from=builder /usr/local/cargo/bin/scribble /usr/local/bin/scribble
+COPY --from=builder /usr/local/cargo/bin/estimate /usr/local/bin/estimate
 COPY scripts/commit.sh /bin/commit.sh
