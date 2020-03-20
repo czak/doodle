@@ -1,11 +1,17 @@
+use chrono::prelude::*;
 use scraper::{Html, Selector};
+
+// 12 weeks
+const PATTERN_LEN: i64 = 84;
+const PATTERN: [i64; 12] = [0, 8, 16, 24, 32, 40, 48, 54, 60, 66, 72, 78];
 
 fn main() {
     let username = std::env::args().nth(1).expect("must specify username");
 
     let current = get_current(&username);
+    let target = get_target();
 
-    println!("{}", current);
+    println!("{}", target.saturating_sub(current));
 }
 
 fn get_current(username: &str) -> u32 {
@@ -18,6 +24,19 @@ fn get_current(username: &str) -> u32 {
         .expect("data-count attribute missing")
         .parse()
         .expect("unable to parse data-count to u32")
+}
+
+fn get_target() -> u32 {
+    let start = Utc.ymd(2020, 1, 5);
+    let now = Utc::today();
+
+    let offset = now.signed_duration_since(start).num_days() % PATTERN_LEN;
+
+    if PATTERN.contains(&offset) {
+        5
+    } else {
+        2
+    }
 }
 
 #[cfg(debug_assertions)]
